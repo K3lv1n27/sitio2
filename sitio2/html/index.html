@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorando Google</title>
+    
+    <!-- === Css en el mismo codigo === -->
+    <style>
+        /* Fondito */
+        body {
+            background-color: #ffd9e5;
+            color: hsl(0, 100%, 95%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Contenedor mas grande y borde */
+        .card-container {
+            border: 3px solid #916d77;
+            border-radius: 25px; /* pa cambiar el borde */
+            padding: 25px; /* la profundidad de la foto adento del borde principal */
+            max-width: 500px; /* el ancho */
+            width: 90%;
+            text-align: center;
+            background-color: #7b9c95;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* el titulo B) */
+        h1 {
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Aqui adentro esta la foto */
+        .image-gallery {
+            margin-bottom: 15px;
+        }
+
+        /* Este es el tamaño de la imagen */
+        #main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 4px solid #447d88;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* El efecto cuando cambia de imagen */
+        #main-image.fade-out {
+            opacity: 0;
+        }
+ 
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            background-color: #555;
+            border: 2px solid #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* El color del puntito */
+        .dot.active {
+            background-color: #e7fdff;
+        }
+
+        /* Lo de la palabra informacion */
+        .info-section h2 {
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            font-size: 0.95em; /* porte de las letras de la info */ 
+        }
+    </style>
+    
+</head> 
+<body>
+
+    <div class="card-container">
+        
+        <h1>Google</h1>
+
+        <div class="image-gallery">
+            <img id="main-image" src="" alt="Google">
+        </div>
+
+        <div class="nav-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
+
+        <div class="info-section">
+            <h2 id="info-title">Detalles</h2>
+            <p id="info-text">La info.</p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const slides = [ /* Las imagenes junto con su info */
+                {
+                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Googleplex_HQ_%28cropped%29.jpg/960px-Googleplex_HQ_%28cropped%29.jpg",
+                    info: "El corazón de Google. Desde su inicio, Google Search ha revolucionado la forma en que accedemos a la información, haciendo que el conocimiento del mundo sea universalmente accesible."
+                },
+                {
+                    image: "https://i0.wp.com/ecuadorgeek.com/wp-content/uploads/2023/11/que-es-android-ecuador-geek.webp?resize=750%2C422&ssl=1",
+                    info: "El sistema operativo móvil más popular del mundo. Android impulsa miles de millones de dispositivos, ofreciendo una plataforma abierta y personalizable para usuarios y desarrolladores."
+                },
+                {
+                    image: "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2023/02/google-maps-2961754.jpg",
+                    info: "Tu guía para el mundo real. Google Maps transformó la navegación, permitiéndonos explorar lugares, encontrar las mejores rutas y descubrir nuevos negocios con solo unos toques."
+                },
+                {
+                    image: "https://i.pcmag.com/imagery/reviews/02yVL9f8Jw1atwoG6sgFZDH-7.fit_lim.size_1050x591.v1569482492.jpg",
+                    info: "La infraestructura que lo hace todo posible. Google Cloud ofrece la misma tecnología segura y potente que Google utiliza para sus propios productos para potenciar empresas de todo el mundo."
+                }
+            ];
+
+            const mainImage = document.getElementById('main-image');
+            const infoText = document.getElementById('info-text');
+            const dots = document.querySelectorAll('.dot');
+
+            function updateGallery(index) {
+                mainImage.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    const currentSlide = slides[index];
+                    mainImage.src = currentSlide.image;
+                    infoText.textContent = currentSlide.info;
+                    mainImage.classList.remove('fade-out');
+                }, 500);
+
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[index].classList.add('active');
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = dot.getAttribute('data-index');
+                    updateGallery(index);
+                });
+            });
+
+            updateGallery(0);
+
+        });
+    </script>
+</body>
+</html>
